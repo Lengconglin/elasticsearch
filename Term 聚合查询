@@ -1,0 +1,3 @@
+#ES Term聚合
+ES Term聚合是按照某一个字段中的值来进行分类，比如编程语言有java、go、python三门语言，那么就会创建三个桶，分别存放java、go、python的信息。
+默认会收集doc_count的信息，记录编程语言为java、go、python的各有多少个。
