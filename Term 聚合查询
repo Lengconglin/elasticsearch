@@ -10,3 +10,31 @@ Terms聚合样例：
         }
     }
 }
+
+得到的结果：
+{
+    "aggregations" : {
+        "languages" : {
+            "doc_count_error_upper_bound": 0, 
+            "sum_other_doc_count": 0, 
+            "buckets" : [ 
+                {
+                    "key" : "java",
+                    "doc_count" : 10
+                },
+                {
+                    "key" : "go",
+                    "doc_count" : 10
+                },
+                {
+                    "key" : "python",
+                    "doc_count" : 10
+                },
+            ]
+        }
+    }
+}
+
+数据不确定性：使用terms聚合，得到的结果可能会带有一定的偏差。
+原理：比如想要获取错误码code字段中出现频率最高的top5.此时客户端向ES发送聚合请求，主节点接收到请求后，会向每个独立的分片发送请求。分片独立计算
+自己分片上的top5错误码，然后返回。当所有的分片结果都返回后，在主节点进行结果的合并，再求出top5并返回给客户端。
