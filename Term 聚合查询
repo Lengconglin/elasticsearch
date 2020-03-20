@@ -5,6 +5,7 @@ ES Terms聚合是按照某一个字段中的值来进行分类，比如编程语
 
 ####Terms聚合样例：
 
+	GET /_search
 	{
 	    "aggs" : {
 	        "languages" : {
@@ -66,7 +67,7 @@ C      8	 |     Python 10|   	 Go     12
 ##文档计数误差参数：
 在进行term聚合时有两个误差参数在结果中显示。  
 1、计算文档错误数：doc_count_error_upper_bound，该参数给出没有被计算进最终结果的最大可能数字  
-  
+
 	{
 	    "aggregations" : {
 	        "products" : {
@@ -108,6 +109,7 @@ C      8	 |     Python 10|   	 Go     12
 ##order排序参数：
 order指定了最后聚合桶结果返回时排序方式，默认按照doc_count进行排序（数量多排在前面）  
 
+	GET /_search
 	{
 	    "aggs" : {
 	        "languages" : {
@@ -120,6 +122,7 @@ order指定了最后聚合桶结果返回时排序方式，默认按照doc_count
 	}
 也可以按照字典方式排序：  
 
+	GET /_search
 	{
 	    "aggs" : {
 	        "languages" : {
@@ -131,7 +134,8 @@ order指定了最后聚合桶结果返回时排序方式，默认按照doc_count
 	    }
 	}
 还可以指定单值的metric聚合进行排序：  
-	
+  
+	GET /_search	
 	{
 	    "aggs" : {
 	        "languages" : {
@@ -146,7 +150,8 @@ order指定了最后聚合桶结果返回时排序方式，默认按照doc_count
 	    }
 	}
 同时也支持多值的Metric聚合，不过要指定使用的多值字段：  
-
+  
+	GET /_search
 	{
 	    "aggs" : {
 	        "languages" : {
@@ -167,11 +172,24 @@ order指定了最后聚合桶结果返回时排序方式，默认按照doc_count
 因此可以通过设置min_doc_count和shard_min_doc_count来规定最小的文档数目，只有满足这个参数要求的个数的词条才会被记录返回。  
 1、min_doc_count：规定了最终结果最小文档数的筛选  
 2、shard_min_doc_count：规定了分片中计算返回时最小文档数的筛选  
+  
+	GET /_search
+	{
+	    "aggs" : {
+	        "tags" : {
+	            "terms" : {
+	                "field" : "tags",
+	                "min_doc_count": 10
+	            }
+	        }
+	    }
+	}
 
 ---
 ##Filterung过滤值，include和exclude过滤参数：
 使用include和exclude可以过滤包含和去除该值的文档:  
 
+	GET /_search
 	{
 	    "aggs" : {
 	        "tags" : {
@@ -186,6 +204,7 @@ order指定了最后聚合桶结果返回时排序方式，默认按照doc_count
 上面的例子中，最后的结果应该包含sport并且不包含water。
 也支持数组的方式，定义包含与排除的信息：  
 
+	GET /_search
 	{
 	    "aggs" : {
 	        "JapaneseCars" : {
@@ -217,6 +236,7 @@ order指定了最后聚合桶结果返回时排序方式，默认按照doc_count
 2、breadth_first 先计算出当前聚合的结果，针对这个结果在对子聚合进行计算。  
 默认情况下ES会使用深度优先，不过可以手动设置成广度优先，比如：  
 
+	GET /_search
 	{
 	    "aggs" : {
 	        "actors" : {
@@ -241,6 +261,7 @@ order指定了最后聚合桶结果返回时排序方式，默认按照doc_count
 ##缺省值Missing Value参数：
 缺省值指定了缺省的字段的处理方式：   
 
+	GET /_search
 	{
 	    "aggs" : {
 	        "tags" : {
